@@ -1,0 +1,30 @@
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+  </head>
+<body>
+  <video id="preview"></video>
+  <button id="scan-btn">Scan QR Code</button>
+  <img src="https://blog.minhazav.dev/assets/img/scanapp-logo-removebg-preview.png" style="width: 100px;">
+</body>
+
+<script>
+    $(document).ready(function() {
+  $('#scan-btn').click(function() {
+    let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+    scanner.addListener('scan', function(content) {
+      alert('QR code scanned: ' + content);
+    });
+    Instascan.Camera.getCameras().then(function(cameras) {
+      if (cameras.length > 0) {
+        scanner.start(cameras[0]);
+      } else {
+        console.error('No cameras found.');
+      }
+    }).catch(function(e) {
+      console.error(e);
+    });
+  });
+});
+
+</script>
